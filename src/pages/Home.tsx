@@ -1,33 +1,20 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-
-const taglines = [
-  "become a healthier you",
-  "finish a project",
-  "build better relationships"
-];
-
+const taglines = ["become a healthier you", "finish a project", "build better relationships"];
 const Home = () => {
   const [currentTaglineIndex, setCurrentTaglineIndex] = useState(0);
-  
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentTaglineIndex((prevIndex) => (prevIndex + 1) % taglines.length);
+      setCurrentTaglineIndex(prevIndex => (prevIndex + 1) % taglines.length);
     }, 3000);
-    
     return () => clearInterval(interval);
   }, []);
-  
-  return (
-    <div className="min-h-[calc(100vh-4rem)]">
+  return <div className="min-h-[calc(100vh-4rem)]">
       {/* Hero Section */}
       <section className="py-16 md:py-24">
         <div className="village-container text-center">
-          <div 
-            className="inline-block bg-village-mustard/10 px-4 py-2 rounded-full text-village-mustard mb-6 animate-fade-in"
-          >
+          <div className="inline-block bg-village-mustard/10 px-4 py-2 rounded-full text-village-mustard mb-6 animate-fade-in">
             Web3-Powered Social Accountability
           </div>
           
@@ -35,17 +22,10 @@ const Home = () => {
             It takes a village to...
           </h1>
           
-          <div className="h-12 md:h-16 mb-8 overflow-hidden">
-            {taglines.map((tagline, index) => (
-              <h2 
-                key={tagline}
-                className={`text-2xl md:text-3xl lg:text-4xl font-semibold text-village-rust transition-all duration-500 ${
-                  index === currentTaglineIndex ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-                }`}
-              >
+          <div className="h-12 md:h-16 mb-8 ">
+            {taglines.map((tagline, index) => <h2 key={tagline} className={`text-2xl md:text-3xl lg:text-4xl font-semibold text-village-rust transition-all duration-500 ${index === currentTaglineIndex ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
                 {tagline}
-              </h2>
-            ))}
+              </h2>)}
           </div>
           
           <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto animate-fade-in">
@@ -79,7 +59,9 @@ const Home = () => {
               </p>
             </div>
             
-            <div className="village-card animate-fade-in" style={{animationDelay: '0.2s'}}>
+            <div className="village-card animate-fade-in" style={{
+            animationDelay: '0.2s'
+          }}>
               <div className="bg-village-olive/10 p-3 rounded-full w-fit mb-4">
                 <span className="text-xl font-bold text-village-olive">2</span>
               </div>
@@ -89,7 +71,9 @@ const Home = () => {
               </p>
             </div>
             
-            <div className="village-card animate-fade-in" style={{animationDelay: '0.4s'}}>
+            <div className="village-card animate-fade-in" style={{
+            animationDelay: '0.4s'
+          }}>
               <div className="bg-village-mustard/10 p-3 rounded-full w-fit mb-4">
                 <span className="text-xl font-bold text-village-mustard">3</span>
               </div>
@@ -101,8 +85,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default Home;
