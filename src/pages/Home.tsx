@@ -19,14 +19,22 @@ const Home = () => {
           </div>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-in">
-            It takes a village to...
-          </h1>
-          
-          <div className="h-40 md:h-16 mb-8 ">
-            {taglines.map((tagline, index) => <h2 key={tagline} className={`text-2xl md:text-3xl lg:text-4xl font-semibold text-village-rust transition-all duration-500 ${index === currentTaglineIndex ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-                {tagline}
-              </h2>)}
-          </div>
+  It takes a village to...
+</h1>
+
+<div className="relative h-12 md:h-16 mb-8">
+  {taglines.map((tagline, index) => (
+    <h2
+      key={tagline}
+      className={`absolute top-0 left-0 w-full text-2xl md:text-3xl lg:text-4xl font-semibold text-village-rust text-center transition-all duration-500 ${
+        index === currentTaglineIndex ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+      }`}
+    >
+      {tagline}
+    </h2>
+  ))}
+</div>
+
           
           <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto animate-fade-in">
             Join accountability groups, stake tokens, and achieve your goals together with the power of community.
