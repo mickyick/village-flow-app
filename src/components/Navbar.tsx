@@ -34,12 +34,11 @@ const Navbar = () => {
     <header className="bg-background/80 backdrop-blur-sm sticky top-0 z-40 w-full border-b">
       <div className="village-container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="bg-village-mustard rounded-full p-1.5">
-              <Users className="h-6 w-6 text-white" />
-            </div>
-            <span className="font-nunito font-bold text-xl">Village</span>
-          </Link>
+         <Link to="/" className="flex items-center gap-2">
+         <img src="/village-logo.png" alt="Village Logo" className="h-8 w-auto" />
+         <span className="font-nunito font-bold text-xl">Village</span>
+        </Link>
+
         </div>
         
         {/* Mobile menu button */}
