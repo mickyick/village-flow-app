@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,17 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+        // Village custom colors
+        village: {
+          rust: '#C06B45',
+          olive: '#606C38',
+          mustard: '#DDA15E',
+          neutral: '#8A898C',
+          cream: '#F4F1DE',
+          lightGray: '#E5E5E5',
+          darkGray: '#403E43',
+        }
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,12 +95,53 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'fade-in': {
+					from: {
+						opacity: '0',
+						transform: 'translateY(10px)'
+					},
+					to: {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
+				'slide-in': {
+					from: {
+						opacity: '0',
+						transform: 'translateX(-10px)'
+					},
+					to: {
+						opacity: '1',
+						transform: 'translateX(0)'
+					}
+				},
+				'text-cycle': {
+					'0%, 33.3%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					},
+					'33.4%, 66.6%': {
+						opacity: '0',
+						transform: 'translateY(-20px)'
+					},
+					'66.7%, 100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
-			}
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fade-in 0.6s ease-out',
+				'slide-in': 'slide-in 0.6s ease-out',
+				'text-cycle': 'text-cycle 9s infinite'
+			},
+      fontFamily: {
+        'sans': ['Inter', 'ui-sans-serif', 'system-ui'],
+        'nunito': ['Nunito', 'ui-sans-serif', 'system-ui'],
+      }
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
