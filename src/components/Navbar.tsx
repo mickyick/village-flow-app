@@ -2,13 +2,32 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Users } from 'lucide-react';
+import { useFlowAuth } from '@/integrations/flow/useFlowAuth';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { user, isConnected, connectWallet, disconnectWallet, isLoading } = useFlowAuth();
   
   const isActive = (path: string) => {
     return location.pathname === path;
+  };
+
+  const handleWalletConnection = async () => {
+    try {
+      if (isConnected) {
+        await disconnectWallet();
+        toast.success('Wallet disconnected');
+      } else {
+        await connectWallet();
+        toast.success('Wallet connected');
+      }
+    } catch (error) {
+      toast.error('Failed to connect wallet');
+      console.error(error);
+    }
   };
 
   return (
@@ -49,9 +68,18 @@ const Navbar = () => {
           >
             Join Village
           </Link>
-          <button className="village-button-primary">
-            Connect Wallet
-          </button>
+          <Button 
+            className="village-button-primary"
+            onClick={handleWalletConnection}
+            disabled={isLoading}
+          >
+            {isLoading 
+              ? "Connecting..." 
+              : isConnected 
+                ? `Connected: ${user.addr?.substring(0, 6)}...${user.addr?.substring(user.addr.length - 4)}`
+                : "Connect Wallet"
+            }
+          </Button>
         </nav>
       </div>
       
@@ -73,9 +101,18 @@ const Navbar = () => {
             >
               Join Village
             </Link>
-            <button className="village-button-primary w-full">
-              Connect Wallet
-            </button>
+            <Button 
+              className="village-button-primary w-full"
+              onClick={handleWalletConnection}
+              disabled={isLoading}
+            >
+              {isLoading 
+                ? "Connecting..." 
+                : isConnected 
+                  ? `Connected: ${user.addr?.substring(0, 6)}...${user.addr?.substring(user.addr.length - 4)}`
+                  : "Connect Wallet"
+              }
+            </Button>
           </div>
         </div>
       )}
