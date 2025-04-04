@@ -22,7 +22,7 @@ const Home = () => {
             It takes a village to...
           </h1>
           
-          <div className="h-12 md:h-16 mb-8 ">
+          <div className="h-40 md:h-16 mb-8 ">
             {taglines.map((tagline, index) => <h2 key={tagline} className={`text-2xl md:text-3xl lg:text-4xl font-semibold text-village-rust transition-all duration-500 ${index === currentTaglineIndex ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
                 {tagline}
               </h2>)}
