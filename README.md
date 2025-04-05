@@ -1,5 +1,7 @@
 <h1>Village: The Web3-Powered Social Accountability App</h1>
 
+<a href="https://village-flow-app.lovable.app" target="_blank">Launch web app</a>
+
 Built by an ambitious product manager with a LOT of help from AI:
 - Front-end: Lovable (React, Vite)
 - Database: Supabase (PostgreSQL)
