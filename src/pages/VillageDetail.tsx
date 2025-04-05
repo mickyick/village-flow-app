@@ -55,6 +55,7 @@ interface ActivityItem {
 
 const VillageDetail = () => {
   const { id } = useParams<{ id: string }>();
+    console.log('Route ID param:', id);
   const [isSubmitOpen, setIsSubmitOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [village, setVillage] = useState<Village | null>(null);
