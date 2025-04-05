@@ -55,7 +55,7 @@ const NoVillageOnlyRoute = ({ children }: { children: React.ReactNode }) => {
 const HomeRoute = () => {
   const { isConnected, villageMembership } = useFlowAuth();
   
-  if (isConnected) {
+  if (isConnected && villageMembership) {
     return <Navigate to="/my-village" />;
   }
   

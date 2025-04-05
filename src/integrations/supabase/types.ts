@@ -9,32 +9,75 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      memberships: {
+      activities: {
+        Row: {
+          description: string | null
+          id: number
+          image_proof: string | null
+          timestamp: string
+          title: string | null
+          user_id: string | null
+        }
+        Insert: {
+          description?: string | null
+          id?: number
+          image_proof?: string | null
+          timestamp?: string
+          title?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          description?: string | null
+          id?: number
+          image_proof?: string | null
+          timestamp?: string
+          title?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      user_goals: {
         Row: {
           created_at: string
+          goal_id: string | null
           id: string
-          user_wallet: string
-          village_id: string
+          last_updated: string | null
+          progress: number | null
+          status: string | null
+          user_id: string | null
         }
         Insert: {
           created_at?: string
+          goal_id?: string | null
           id?: string
-          user_wallet: string
-          village_id: string
+          last_updated?: string | null
+          progress?: number | null
+          status?: string | null
+          user_id?: string | null
         }
         Update: {
           created_at?: string
+          goal_id?: string | null
           id?: string
-          user_wallet?: string
-          village_id?: string
+          last_updated?: string | null
+          progress?: number | null
+          status?: string | null
+          user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "memberships_user_wallet_fkey"
-            columns: ["user_wallet"]
+            foreignKeyName: "user_goals_goal_id_fkey"
+            columns: ["goal_id"]
             isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["wallet_address"]
+            referencedRelation: "village_goals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_goals_village_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "villages"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -42,58 +85,97 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          updated_at: string | null
           wallet_address: string
         }
         Insert: {
           created_at?: string
           id?: string
+          updated_at?: string | null
           wallet_address: string
         }
         Update: {
           created_at?: string
           id?: string
+          updated_at?: string | null
           wallet_address?: string
         }
         Relationships: []
       }
-      "users-test": {
+      village_goals: {
         Row: {
           created_at: string
+          goal_description: string | null
+          goal_end_date: string | null
+          goal_start_date: string | null
+          goal_target: number | null
           id: string
-          wallet_address: string | null
+          is_active: boolean | null
+          village_id: string | null
         }
         Insert: {
           created_at?: string
+          goal_description?: string | null
+          goal_end_date?: string | null
+          goal_start_date?: string | null
+          goal_target?: number | null
           id?: string
-          wallet_address?: string | null
+          is_active?: boolean | null
+          village_id?: string | null
         }
         Update: {
           created_at?: string
+          goal_description?: string | null
+          goal_end_date?: string | null
+          goal_start_date?: string | null
+          goal_target?: number | null
           id?: string
-          wallet_address?: string | null
+          is_active?: boolean | null
+          village_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "fk_village_id"
+            columns: ["village_id"]
+            isOneToOne: false
+            referencedRelation: "villages"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       village_members: {
         Row: {
           id: string
           joined_at: string | null
+          role: string
+          stake_amount: number | null
           user_id: string
           village_id: string
         }
         Insert: {
           id?: string
           joined_at?: string | null
-          user_id: string
+          role?: string
+          stake_amount?: number | null
+          user_id?: string
           village_id: string
         }
         Update: {
           id?: string
           joined_at?: string | null
+          role?: string
+          stake_amount?: number | null
           user_id?: string
           village_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "fk_village_id"
+            columns: ["village_id"]
+            isOneToOne: false
+            referencedRelation: "villages"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "village_members_village_id_fkey"
             columns: ["village_id"]
