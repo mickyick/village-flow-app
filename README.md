@@ -52,6 +52,7 @@ Payout:
 
 <h2>🌟 Product Roadmap (Post-MVP) </h2>
 
+- Real token staking: Integrate FlowToken vaults for actual staking and payout
 - AI-Generated NFT Badges: Users earn Flow-powered NFTs as trophies for their progress
 - Flow Walletless Onboarding: Create wallets for non-web3 users behind-the-scenes for a seamless signup
 - On-chain proof of activity: Store member activities on the Flow blockchain for immutability and transparency
@@ -60,10 +61,12 @@ Payout:
 - Advanced reward distribution: Allow groups to donate their rewards or customize prize distribution logic
 - Comments and reactions on activity posts
 - Group chat / DM in-app / integration with Discord
+- Member roles: Allow selected members to manage the group and override terms for exceptional circumstances
 
 <h2>🎨 Creative Direction</h2>
 
-Theme: It takes a village to achieve our goals.
-Tone: Warm, clean, and welcoming - like a strong community.
-Colors: Muted autumn palette – amber, forest green, rust, sand.
-Fonts: Modern, rounded sans-serifs with friendly polish.
+- Theme: It takes a village to achieve our goals.
+- Tone: Warm, clean, and welcoming - like a strong community.
+- Colors: Muted autumn palette – amber, forest green, rust, sand.
+- Fonts: Modern, rounded sans-serifs with friendly polish.
+- Graphics: Hand-drawn illustrations to feel more personal
