@@ -279,10 +279,7 @@ const VillageDetail = () => {
           
           <div className="flex flex-wrap -space-x-2 mt-6">
             {members.map((member, index) => (
-              <Avatar key={member.id} className="border-2 border-background">
-                <AvatarImage src="/placeholder.svg" alt={`Member ${index + 1}`} />
-                <AvatarFallback>{index + 1}</AvatarFallback>
-              </Avatar>
+              <div key={member.id} className="text-sm text-muted-foreground">{member.wallet_address}</div>
             ))}
           </div>
         </div>
