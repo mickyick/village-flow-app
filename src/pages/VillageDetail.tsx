@@ -326,10 +326,6 @@ const VillageDetail = () => {
           <div className="space-y-4">
             {activities.map((activity) => (
               <div key={activity.id} className="village-card flex gap-4">
-                <Avatar>
-                  <AvatarImage src={activity.user?.avatar} alt={activity.user?.name} />
-                  <AvatarFallback>{activity.user?.name?.[0] || 'U'}</AvatarFallback>
-                </Avatar>
                 
                 <div className="flex-1">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 mb-2">
