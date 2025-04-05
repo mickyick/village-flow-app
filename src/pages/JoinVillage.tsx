@@ -14,12 +14,14 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { toast } from 'sonner';
 import { CalendarDays, Trophy, Users } from 'lucide-react';
+import { useFlowAuth } from '@/integrations/flow/useFlowAuth';
 
 const JoinVillage = () => {
   const navigate = useNavigate();
   const [inviteCode, setInviteCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [village, setVillage] = useState<any>(null);
+  const { user, isConnected, connectWallet, isLoading: isAuthLoading } = useFlowAuth();
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,9 +54,33 @@ const JoinVillage = () => {
     }, 1500);
   };
   
-  const handleJoin = () => {
-    toast.success('Successfully joined village!');
-    navigate('/village/demo');
+  const handleJoin = async () => {
+    if (!isConnected) {
+      try {
+        await connectWallet();
+        toast.success('Wallet connected!');
+        // Wait a moment before proceeding with join
+        setTimeout(() => {
+          toast.success('Successfully joined village!');
+          navigate('/village/demo');
+        }, 1000);
+      } catch (error) {
+        toast.error('Please connect your wallet to join');
+      }
+    } else {
+      toast.success('Successfully joined village!');
+      navigate('/village/demo');
+    }
+  };
+
+  const handleConnectWallet = async () => {
+    try {
+      await connectWallet();
+      toast.success('Wallet connected!');
+    } catch (error) {
+      toast.error('Failed to connect wallet');
+      console.error(error);
+    }
   };
   
   return (
@@ -158,14 +184,28 @@ const JoinVillage = () => {
                 By joining, you agree to stake {village.stakeAmount} FLOW tokens. You'll earn rewards by meeting the village goal.
               </p>
             </div>
+
+            {!isConnected && (
+              <Button 
+                onClick={handleConnectWallet}
+                className="w-full bg-village-olive hover:bg-village-olive/90"
+                disabled={isAuthLoading}
+              >
+                {isAuthLoading ? 'Connecting...' : 'Connect Wallet First'}
+              </Button>
+            )}
           </CardContent>
           
           <CardFooter className="flex flex-col gap-4">
             <Button 
               onClick={handleJoin}
               className="village-button-primary w-full"
+              disabled={isAuthLoading}
             >
-              Join & Stake {village.stakeAmount} FLOW
+              {isConnected 
+                ? `Join & Stake ${village.stakeAmount} FLOW` 
+                : `Connect & Stake ${village.stakeAmount} FLOW`
+              }
             </Button>
             
             <Button 

@@ -2,25 +2,43 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Users } from 'lucide-react';
+import { useFlowAuth } from '@/integrations/flow/useFlowAuth';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { user, isConnected, connectWallet, disconnectWallet, isLoading } = useFlowAuth();
   
   const isActive = (path: string) => {
     return location.pathname === path;
+  };
+
+  const handleWalletConnection = async () => {
+    try {
+      if (isConnected) {
+        await disconnectWallet();
+        toast.success('Wallet disconnected');
+      } else {
+        await connectWallet();
+        toast.success('Wallet connected');
+      }
+    } catch (error) {
+      toast.error('Failed to connect wallet');
+      console.error(error);
+    }
   };
 
   return (
     <header className="bg-background/80 backdrop-blur-sm sticky top-0 z-40 w-full border-b">
       <div className="village-container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="bg-village-mustard rounded-full p-1.5">
-              <Users className="h-6 w-6 text-white" />
-            </div>
-            <span className="font-nunito font-bold text-xl">Village</span>
-          </Link>
+         <Link to="/" className="flex items-center gap-2">
+         <img src="/village-logo.png" alt="Village Logo" className="h-8 w-auto" />
+         <span className="font-nunito font-bold text-xl">Village</span>
+        </Link>
+
         </div>
         
         {/* Mobile menu button */}
@@ -49,9 +67,18 @@ const Navbar = () => {
           >
             Join Village
           </Link>
-          <button className="village-button-primary">
-            Connect Wallet
-          </button>
+          <Button 
+            className="village-button-primary"
+            onClick={handleWalletConnection}
+            disabled={isLoading}
+          >
+            {isLoading 
+              ? "Connecting..." 
+              : isConnected 
+                ? `Connected: ${user.addr?.substring(0, 6)}...${user.addr?.substring(user.addr.length - 4)}`
+                : "Connect Wallet"
+            }
+          </Button>
         </nav>
       </div>
       
@@ -73,9 +100,18 @@ const Navbar = () => {
             >
               Join Village
             </Link>
-            <button className="village-button-primary w-full">
-              Connect Wallet
-            </button>
+            <Button 
+              className="village-button-primary w-full"
+              onClick={handleWalletConnection}
+              disabled={isLoading}
+            >
+              {isLoading 
+                ? "Connecting..." 
+                : isConnected 
+                  ? `Connected: ${user.addr?.substring(0, 6)}...${user.addr?.substring(user.addr.length - 4)}`
+                  : "Connect Wallet"
+              }
+            </Button>
           </div>
         </div>
       )}
