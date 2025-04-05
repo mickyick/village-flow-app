@@ -107,6 +107,22 @@ const MyVillage = () => {
 
   // User has a village, use the first one if they somehow have multiple
   const userVillage = villageMemberships[0];
+  
+  // Fix the TypeScript error by checking the structure of userVillage
+  if (!userVillage || typeof userVillage !== 'object' || !('villages' in userVillage)) {
+    return (
+      <div className="village-container py-12">
+        <Alert variant="destructive" className="mb-6">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>
+            Invalid village data structure. Please try again later.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
+  
   const village = userVillage.villages as Village;
 
   return (
