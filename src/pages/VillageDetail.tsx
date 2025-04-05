@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -115,16 +114,22 @@ const VillageDetail = () => {
         if (activitiesError) throw activitiesError;
         
         // Process activities to add user info
-        const processedActivities = activitiesData.map((activity) => ({
+        const processedActivities = activitiesData ? activitiesData.map((activity) => ({
           ...activity,
           user: {
             name: 'Member', // Placeholder - ideally fetch actual names
             avatar: '/placeholder.svg'
           }
-        }));
+        })) : [];
         
-        setVillage(villageData);
-        setMembers(membersData);
+        if (villageData) {
+          setVillage(villageData);
+        }
+        
+        if (membersData) {
+          setMembers(membersData);
+        }
+        
         setActivities(processedActivities);
       } catch (error) {
         console.error('Error fetching village data:', error);
@@ -164,24 +169,25 @@ const VillageDetail = () => {
           timestamp: new Date().toISOString(),
           user_id: 'current-user-id', // This should be the actual user ID
           village_id: id
-        })
-        .select();
+        });
       
       if (error) throw error;
       
       // Add the new activity to the state
-      if (data && data[0]) {
-        const newActivityItem: ActivityItem = {
-          ...data[0],
-          user: {
-            name: 'You',
-            avatar: '/placeholder.svg'
-          }
-        };
-        
-        setActivities([newActivityItem, ...activities]);
-      }
+      const newActivityItem: ActivityItem = {
+        id: Date.now(), // Temporary ID until we get the real one
+        title: newActivity.title,
+        description: newActivity.description || null,
+        image_proof: imageUrl,
+        timestamp: new Date().toISOString(),
+        user_id: 'current-user-id',
+        user: {
+          name: 'You',
+          avatar: '/placeholder.svg'
+        }
+      };
       
+      setActivities([newActivityItem, ...activities]);
       setIsSubmitOpen(false);
       setNewActivity({ title: '', description: '', image: null });
       toast.success('Activity submitted successfully!');

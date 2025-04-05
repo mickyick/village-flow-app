@@ -79,26 +79,33 @@ const CreateVillage = () => {
     // Generate unique slug or invite ID
     const inviteSlug = Math.random().toString(36).substring(2, 8);
   
-    const { data, error } = await supabase.from('villages').insert([
-      {
-        name,
-        description,
-        goal,
-        start_date: startDate?.toISOString(),
-        end_date: endDate?.toISOString(),
-        stake: parseFloat(stake),
-        invite_link: inviteSlug, // or the full invite URL
-        reward_type: 'winner_takes_all' // Or handle this based on selection
+    try {
+      const { data, error } = await supabase
+        .from('villages')
+        .insert([
+          {
+            name,
+            description,
+            goal,
+            start_date: startDate?.toISOString(),
+            end_date: endDate?.toISOString(),
+            stake: parseFloat(stake),
+            invite_link: inviteSlug,
+            reward_type: 'winner_takes_all'
+          }
+        ]);
+    
+      if (error) {
+        toast.error(`Failed to create village: ${error.message}`);
+        return;
       }
-    ]);
-  
-    if (error) {
-      toast.error(`Failed to create village: ${error.message}`);
-      return;
+    
+      toast.success('Village created successfully!');
+      navigate(`/village/${inviteSlug}`);
+    } catch (err) {
+      console.error('Error creating village:', err);
+      toast.error('Failed to create village');
     }
-  
-    toast.success('Village created successfully!');
-    navigate(`/village/${inviteSlug}`);
   };
   
   

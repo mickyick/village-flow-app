@@ -17,6 +17,7 @@ export type Database = {
           timestamp: string
           title: string | null
           user_id: string | null
+          village_id: string | null
         }
         Insert: {
           description?: string | null
@@ -25,6 +26,7 @@ export type Database = {
           timestamp?: string
           title?: string | null
           user_id?: string | null
+          village_id?: string | null
         }
         Update: {
           description?: string | null
@@ -33,8 +35,17 @@ export type Database = {
           timestamp?: string
           title?: string | null
           user_id?: string | null
+          village_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "activities_village_id_fkey"
+            columns: ["village_id"]
+            isOneToOne: false
+            referencedRelation: "villages"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_goals: {
         Row: {
