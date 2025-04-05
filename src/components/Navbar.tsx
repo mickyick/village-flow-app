@@ -38,7 +38,6 @@ const Navbar = () => {
          <img src="/village-logo.png" alt="Village Logo" className="h-8 w-auto" />
          <span className="font-nunito font-bold text-xl">Village</span>
         </Link>
-
         </div>
         
         {/* Mobile menu button */}
@@ -55,6 +54,14 @@ const Navbar = () => {
         
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-6">
+          {isConnected && (
+            <Link 
+              to="/my-village" 
+              className={`font-medium ${isActive('/my-village') ? 'text-village-rust' : 'text-foreground hover:text-village-rust transition-colors'}`}
+            >
+              My Village
+            </Link>
+          )}
           <Link 
             to="/create" 
             className={`font-medium ${isActive('/create') ? 'text-village-rust' : 'text-foreground hover:text-village-rust transition-colors'}`}
@@ -86,6 +93,15 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden border-t animate-fade-in">
           <div className="village-container py-4 space-y-4">
+            {isConnected && (
+              <Link 
+                to="/my-village" 
+                className={`block py-2 font-medium ${isActive('/my-village') ? 'text-village-rust' : 'text-foreground'}`}
+                onClick={() => setIsOpen(false)}
+              >
+                My Village
+              </Link>
+            )}
             <Link 
               to="/create" 
               className={`block py-2 font-medium ${isActive('/create') ? 'text-village-rust' : 'text-foreground'}`}
