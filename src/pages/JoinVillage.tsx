@@ -178,15 +178,14 @@ const JoinVillage = () => {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
-                <span className="text-sm font-medium">Members ({village.members && village.members.length || 0})</span>
+                <span className="text-sm font-medium">Members</span>
               </div>
               
               <div className="flex -space-x-2">
                 {village.members && village.members.map((member: any) => (
-                  <Avatar key={member.id} className="border-2 border-background">
-                    <AvatarImage src={member.avatar} alt={member.name} />
-                    <AvatarFallback>{member.name ? member.name[0] : '?'}</AvatarFallback>
-                  </Avatar>
+                  <div key={member.id} className="flex justify-between items-center p-3 bg-muted rounded-lg">
+                    <div className="text-xs text-muted-foreground">{member.wallet_address}</div>
+                  </div>
                 ))}
               </div>
             </div>
