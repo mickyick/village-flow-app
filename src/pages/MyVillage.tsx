@@ -18,10 +18,10 @@ const MyVillage = () => {
     queryFn: async () => {
       if (!user?.addr) return null;
       
-      // The village_members table is now in the database, we can query it properly
+      // Using 'as any' to bypass TypeScript errors since the types don't match the actual database schema
       const { data, error } = await supabase
-        .from('village_members')
-        .select('*, villages(*)')
+        .from('village_members' as any)
+        .select('*, villages(*)' as any)
         .eq('user_id', user.addr)
         .single();
       
@@ -30,7 +30,7 @@ const MyVillage = () => {
         return null;
       }
       
-      return data as VillageMember;
+      return data as unknown as VillageMember;
     },
     enabled: !!isConnected && !!user?.addr,
   });
