@@ -15,6 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { toast } from 'sonner';
 import { CalendarDays, Trophy, Users } from 'lucide-react';
 import { useFlowAuth } from '@/integrations/flow/useFlowAuth';
+import { supabase } from '@/integrations/supabase/client';
 
 const JoinVillage = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const JoinVillage = () => {
   const [village, setVillage] = useState<any>(null);
   const { user, isConnected, connectWallet, isLoading: isAuthLoading } = useFlowAuth();
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inviteCode) {
       toast.error('Please enter an invite code');
@@ -32,26 +33,32 @@ const JoinVillage = () => {
     
     setIsLoading(true);
     
-    // Simulate loading
-    setTimeout(() => {
-      // Simulate a found village for demo purposes
-      setVillage({
-        id: 'demo',
-        name: 'Morning Exercise Club',
-        description: 'A group committed to working out in the morning 4 times per week',
-        goal: 'Exercise 4x per week',
-        startDate: new Date(),
-        endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
-        stakeAmount: '10',
-        members: [
-          { id: 1, name: 'Alex', avatar: '/placeholder.svg' },
-          { id: 2, name: 'Taylor', avatar: '/placeholder.svg' },
-          { id: 3, name: 'Jordan', avatar: '/placeholder.svg' },
-        ]
-      });
-      
+    try {
+    // Query Supabase to find the village based on the invite code
+    const { data: villageData, error } = await supabase
+      .from('village') 
+      .select('*')
+      .eq('invite_code', inviteCode) 
+      .single(); 
+    
+    if (error) {
+      toast.error('Failed to find village');
       setIsLoading(false);
-    }, 1500);
+      return;
+    }
+
+    if (villageData) {
+      // Set the real village data into the state
+      setVillage(villageData);
+    } else {
+      toast.error('Village not found');
+    }
+
+    } catch (error) {
+     toast.error('An error occurred while fetching village data');
+    } finally {
+      setIsLoading(false);
+    }
   };
   
   const handleJoin = async () => {
@@ -62,14 +69,14 @@ const JoinVillage = () => {
         // Wait a moment before proceeding with join
         setTimeout(() => {
           toast.success('Successfully joined village!');
-          navigate('/village/demo');
+          navigate(`/village/${village.id}`);
         }, 1000);
       } catch (error) {
         toast.error('Please connect your wallet to join');
       }
     } else {
       toast.success('Successfully joined village!');
-      navigate('/village/demo');
+      navigate(`/village/${village.id}`);
     }
   };
 
@@ -90,7 +97,7 @@ const JoinVillage = () => {
           <CardHeader>
             <CardTitle>Join a Village</CardTitle>
             <CardDescription>
-              Enter the invite code or link you received to join an existing accountability village.
+              Enter the invite code or link you received to join an existing village.
             </CardDescription>
           </CardHeader>
           
@@ -98,7 +105,7 @@ const JoinVillage = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <Input 
-                  placeholder="Enter invite code or paste invite link" 
+                  placeholder="Enter invite code" 
                   value={inviteCode} 
                   onChange={(e) => setInviteCode(e.target.value)}
                   className="text-center"
@@ -177,11 +184,11 @@ const JoinVillage = () => {
             <div className="rounded-lg border p-4 space-y-3">
               <div className="flex justify-between items-center">
                 <span className="font-medium">Required Stake</span>
-                <span className="font-bold">{village.stakeAmount} FLOW</span>
+                <span className="font-bold">{village.stake} FLOW</span>
               </div>
               
               <p className="text-sm text-muted-foreground">
-                By joining, you agree to stake {village.stakeAmount} FLOW tokens. You'll earn rewards by meeting the village goal.
+                By joining, you agree to stake {village.stake} FLOW tokens. You'll earn rewards by meeting the village goal.
               </p>
             </div>
 
@@ -203,8 +210,8 @@ const JoinVillage = () => {
               disabled={isAuthLoading}
             >
               {isConnected 
-                ? `Join & Stake ${village.stakeAmount} FLOW` 
-                : `Connect & Stake ${village.stakeAmount} FLOW`
+                ? `Join & Stake ${village.stake} FLOW` 
+                : `Connect & Stake ${village.stake} FLOW`
               }
             </Button>
             
