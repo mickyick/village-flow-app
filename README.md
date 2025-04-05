@@ -16,7 +16,9 @@ Village is a Web3 accountability platform that empowers users to reach their goa
 <h2>💡 Why This Has "Killer App" Potential</h2>
 
 1️⃣ Solves a Real Pain Point – Many people struggle to stay consistent with habits. Social accountability + skin in the game + rewards makes goals easier and more fun to achieve.
+
 2️⃣ Unique in Web3 – Most web3 consumer apps focus on DeFi, NFTs, or gaming. Few focus on behavioral incentives for personal growth.
+
 3️⃣ Naturally uses Flow’s strengths – Flow is great for consumer-friendly dApps, walletless onboarding, scalability, programmable rewards, and NFTs.
 
 <h2>✅ MVP Features</h2>
