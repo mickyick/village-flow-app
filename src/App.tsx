@@ -15,7 +15,6 @@ import NotFound from "./pages/NotFound";
 import { initFlowConfig } from "./integrations/flow/config";
 import { useFlowAuth } from "./integrations/flow/useFlowAuth";
 import { supabase } from "./integrations/supabase/client";
-import { useQuery } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 
@@ -32,35 +31,15 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 // Route that requires user to NOT be in a village
 const NoVillageOnlyRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isConnected, user } = useFlowAuth();
-  
-  const { data: isInVillage, isLoading } = useQuery({
-    queryKey: ['userInVillage', user?.addr],
-    queryFn: async () => {
-      if (!user?.addr) return false;
-      
-      const { data, error } = await supabase
-        .from('village_members' as any)
-        .select('id')
-        .eq('user_id', user.addr);
-      
-      if (error) {
-        console.error('Error checking village membership:', error);
-        return false;
-      }
-      
-      return data && data.length > 0;
-    },
-    enabled: !!isConnected && !!user?.addr,
-  });
+  const { isConnected, user, villageMembership } = useFlowAuth();
   
   // If loading, show nothing yet
-  if (isLoading) {
+  if (!user) {
     return null;
   }
   
   // If user is already in a village, redirect to their village page
-  if (isInVillage) {
+  if (villageMembership) {
     return <Navigate to="/my-village" />;
   }
   
@@ -74,7 +53,7 @@ const NoVillageOnlyRoute = ({ children }: { children: React.ReactNode }) => {
 
 // Home route handler - directs to MyVillage for authenticated users
 const HomeRoute = () => {
-  const { isConnected } = useFlowAuth();
+  const { isConnected, villageMembership } = useFlowAuth();
   
   if (isConnected) {
     return <Navigate to="/my-village" />;

@@ -1,16 +1,14 @@
 
 import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useFlowAuth } from '@/integrations/flow/useFlowAuth';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Village, VillageMember } from '@/types/village';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 const MyVillage = () => {
   const { isConnected, user } = useFlowAuth();
@@ -109,7 +107,7 @@ const MyVillage = () => {
   const userVillage = villageMemberships[0];
   
   // Fix the TypeScript error by checking the structure of userVillage
-  if (!userVillage || typeof userVillage !== 'object' || !('villages' in userVillage)) {
+  if (!userVillage) {
     return (
       <div className="village-container py-12">
         <Alert variant="destructive" className="mb-6">
@@ -117,6 +115,21 @@ const MyVillage = () => {
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>
             Invalid village data structure. Please try again later.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
+  
+  // Check if villages property exists on userVillage
+  if (!('villages' in userVillage)) {
+    return (
+      <div className="village-container py-12">
+        <Alert variant="destructive" className="mb-6">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>
+            Invalid village data structure. Missing villages property.
           </AlertDescription>
         </Alert>
       </div>

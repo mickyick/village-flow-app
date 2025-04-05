@@ -9,6 +9,71 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      memberships: {
+        Row: {
+          created_at: string
+          id: string
+          user_wallet: string
+          village_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          user_wallet: string
+          village_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          user_wallet?: string
+          village_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "memberships_user_wallet_fkey"
+            columns: ["user_wallet"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["wallet_address"]
+          },
+        ]
+      }
+      users: {
+        Row: {
+          created_at: string
+          id: string
+          wallet_address: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          wallet_address: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          wallet_address?: string
+        }
+        Relationships: []
+      }
+      "users-test": {
+        Row: {
+          created_at: string
+          id: string
+          wallet_address: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          wallet_address?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          wallet_address?: string | null
+        }
+        Relationships: []
+      }
       village_members: {
         Row: {
           id: string

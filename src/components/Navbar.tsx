@@ -1,51 +1,26 @@
 
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Users } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useFlowAuth } from '@/integrations/flow/useFlowAuth';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { user, isConnected, connectWallet, disconnectWallet, isLoading } = useFlowAuth();
+  const { user, isConnected, villageMembership, connectWallet, disconnectWallet, isLoading } = useFlowAuth();
   
   const isActive = (path: string) => {
     return location.pathname === path;
   };
 
-  // Check if user is in a village
-  const { data: isInVillage } = useQuery({
-    queryKey: ['userInVillage', user?.addr],
-    queryFn: async () => {
-      if (!user?.addr) return false;
-      
-      const { data, error } = await supabase
-        .from('village_members' as any)
-        .select('id')
-        .eq('user_id', user.addr);
-      
-      if (error) {
-        console.error('Error checking village membership:', error);
-        return false;
-      }
-      
-      return data && data.length > 0;
-    },
-    enabled: !!isConnected && !!user?.addr,
-  });
-
   const handleWalletConnection = async () => {
     try {
       if (isConnected) {
         await disconnectWallet();
-        toast.success('Wallet disconnected');
       } else {
         await connectWallet();
-        toast.success('Wallet connected');
       }
     } catch (error) {
       toast.error('Failed to connect wallet');
@@ -57,10 +32,10 @@ const Navbar = () => {
     <header className="bg-background/80 backdrop-blur-sm sticky top-0 z-40 w-full border-b">
       <div className="village-container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
-         <Link to="/" className="flex items-center gap-2">
-         <img src="/village-logo.png" alt="Village Logo" className="h-8 w-auto" />
-         <span className="font-nunito font-bold text-xl">Village</span>
-        </Link>
+          <Link to="/" className="flex items-center gap-2">
+            <img src="/village-logo.png" alt="Village Logo" className="h-8 w-auto" />
+            <span className="font-nunito font-bold text-xl">Village</span>
+          </Link>
         </div>
         
         {/* Mobile menu button */}
@@ -87,7 +62,7 @@ const Navbar = () => {
           )}
           
           {/* Only show Create/Join Village links if user is not already in a village */}
-          {isConnected && !isInVillage && (
+          {isConnected && !villageMembership && (
             <>
               <Link 
                 to="/create" 
@@ -134,7 +109,7 @@ const Navbar = () => {
             )}
             
             {/* Only show Create/Join Village links if user is not already in a village */}
-            {isConnected && !isInVillage && (
+            {isConnected && !villageMembership && (
               <>
                 <Link 
                   to="/create" 
