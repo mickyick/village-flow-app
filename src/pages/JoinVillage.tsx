@@ -22,6 +22,7 @@ const JoinVillage = () => {
   const [inviteCode, setInviteCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [village, setVillage] = useState<any>(null);
+  const [villageMembers, setVillageMembers] = useState<any[]>([]); 
   const { user, isConnected, connectWallet, isLoading: isAuthLoading } = useFlowAuth();
   
   const handleSubmit = async (e: React.FormEvent) => {
@@ -49,11 +50,22 @@ const JoinVillage = () => {
 
     if (villageData) {
       // Set the village data into the state
-      // Initialize members as an empty array if not present
-      setVillage({
-        ...villageData,
-        members: [] // Initialize with empty array
-      });
+      setVillage(villageData);
+      
+      // Fetch the members from the village_members table
+        const { data: membersData, error: membersError } = await supabase
+          .from('village_members')
+          .select('wallet_address') // Select only wallet_address
+          .eq('village_id', villageData.id); // Assuming village_id is the foreign key
+
+        if (membersError) {
+          toast.error('Failed to fetch members');
+          setIsLoading(false);
+          return;
+        }
+
+        // Set the members data
+        setVillageMembers(membersData || []);
     } else {
       toast.error('Village not found');
     }
@@ -181,9 +193,15 @@ const JoinVillage = () => {
                 <span className="text-sm font-medium">Members</span>
               </div>
               
+<<<<<<< HEAD
+              <div className="flex flex-col space-y-2">
+                {villageMembers.map((member: any) => (
+                  <div key={member.wallet_address} className="p-3 bg-muted rounded-lg">
+=======
               <div className="flex -space-x-2">
                 {village.members && village.members.map((member: any) => (
                   <div key={member.id} className="flex justify-between items-center p-3 bg-muted rounded-lg">
+>>>>>>> c00dba51bf7778a0bdfec723e25ef7663b56e13c
                     <div className="text-xs text-muted-foreground">{member.wallet_address}</div>
                   </div>
                 ))}
