@@ -277,9 +277,15 @@ const VillageDetail = () => {
             </div>
           </div>
           
-          <div className="flex flex-wrap -space-x-2 mt-6">
-            {members.map((member, index) => (
-              <div key={member.id} className="text-sm text-muted-foreground">{member.wallet_address}</div>
+          <div className="village-container py-8">
+            <h2 className="text-xl font-bold mb-6">Wallet Addresses</h2>
+
+          {/* Display wallet addresses in a flex column layout */}
+          <div className="flex flex-col space-y-2">
+            {members.map((member) => (
+              <div key={member.wallet_address} className="p-3 bg-muted rounded-lg">
+                <div className="text-xs text-muted-foreground">{member.wallet_address}</div>
+              </div>
             ))}
           </div>
         </div>
