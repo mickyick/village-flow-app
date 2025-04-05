@@ -14,6 +14,8 @@ import MyVillage from "./pages/MyVillage";
 import NotFound from "./pages/NotFound";
 import { initFlowConfig } from "./integrations/flow/config";
 import { useFlowAuth } from "./integrations/flow/useFlowAuth";
+import { supabase } from "./integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +23,48 @@ const queryClient = new QueryClient();
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isConnected } = useFlowAuth();
   
+  if (!isConnected) {
+    return <Navigate to="/" />;
+  }
+  
+  return <>{children}</>;
+};
+
+// Route that requires user to NOT be in a village
+const NoVillageOnlyRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isConnected, user } = useFlowAuth();
+  
+  const { data: isInVillage, isLoading } = useQuery({
+    queryKey: ['userInVillage', user?.addr],
+    queryFn: async () => {
+      if (!user?.addr) return false;
+      
+      const { data, error } = await supabase
+        .from('village_members' as any)
+        .select('id')
+        .eq('user_id', user.addr);
+      
+      if (error) {
+        console.error('Error checking village membership:', error);
+        return false;
+      }
+      
+      return data && data.length > 0;
+    },
+    enabled: !!isConnected && !!user?.addr,
+  });
+  
+  // If loading, show nothing yet
+  if (isLoading) {
+    return null;
+  }
+  
+  // If user is already in a village, redirect to their village page
+  if (isInVillage) {
+    return <Navigate to="/my-village" />;
+  }
+  
+  // If user is not logged in, redirect to home
   if (!isConnected) {
     return <Navigate to="/" />;
   }
@@ -40,25 +84,23 @@ const HomeRoute = () => {
 };
 
 const AppRoutes = () => {
-  const { isConnected } = useFlowAuth();
-
   return (
     <Routes>
       <Route path="/" element={<HomeRoute />} />
       <Route 
         path="/create" 
         element={
-          <ProtectedRoute>
+          <NoVillageOnlyRoute>
             <CreateVillage />
-          </ProtectedRoute>
+          </NoVillageOnlyRoute>
         } 
       />
       <Route 
         path="/join" 
         element={
-          <ProtectedRoute>
+          <NoVillageOnlyRoute>
             <JoinVillage />
-          </ProtectedRoute>
+          </NoVillageOnlyRoute>
         } 
       />
       <Route 
