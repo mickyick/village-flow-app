@@ -7,19 +7,20 @@ import { useFlowAuth } from '@/integrations/flow/useFlowAuth';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { Village, VillageMember } from '@/types/village';
 
 const MyVillage = () => {
   const { isConnected, user } = useFlowAuth();
 
   // Fetch user's village membership
   const { data: userVillage, isLoading } = useQuery({
-    queryKey: ['userVillage', user.addr],
+    queryKey: ['userVillage', user?.addr],
     queryFn: async () => {
-      if (!isConnected) return null;
+      if (!user?.addr) return null;
       
       const { data, error } = await supabase
         .from('village_members')
-        .select('village_id, villages:village_id(*)')
+        .select('*, villages:village_id(*)')
         .eq('user_id', user.addr)
         .single();
       
@@ -28,9 +29,9 @@ const MyVillage = () => {
         return null;
       }
       
-      return data;
+      return data as VillageMember;
     },
-    enabled: isConnected && !!user.addr,
+    enabled: !!isConnected && !!user?.addr,
   });
 
   // If user is not authenticated, redirect to home
@@ -54,7 +55,7 @@ const MyVillage = () => {
   }
 
   // User has a village, show village details
-  const village = userVillage.villages;
+  const village = userVillage.villages as Village;
 
   return (
     <div className="village-container py-12">
