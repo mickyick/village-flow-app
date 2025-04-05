@@ -18,6 +18,7 @@ const MyVillage = () => {
     queryFn: async () => {
       if (!user?.addr) return null;
       
+      // The village_members table is now in the database, we can query it properly
       const { data, error } = await supabase
         .from('village_members')
         .select('*, villages(*)')
@@ -29,8 +30,7 @@ const MyVillage = () => {
         return null;
       }
       
-      // Cast the result to any to bypass the type checking issues
-      return data as any as VillageMember;
+      return data as VillageMember;
     },
     enabled: !!isConnected && !!user?.addr,
   });
@@ -62,12 +62,12 @@ const MyVillage = () => {
     <div className="village-container py-12">
       <h1 className="text-3xl md:text-4xl font-bold mb-8">{village.name}</h1>
       
-      <div className="village-card mb-8">
+      <div className="village-card mb-8 bg-card p-6 rounded-lg border shadow-sm">
         <h2 className="text-xl font-bold mb-2">Goal</h2>
         <p className="text-muted-foreground">{village.goal}</p>
       </div>
       
-      <div className="village-card mb-8">
+      <div className="village-card mb-8 bg-card p-6 rounded-lg border shadow-sm">
         <h2 className="text-xl font-bold mb-2">About</h2>
         <p className="text-muted-foreground">{village.description || 'No description available.'}</p>
       </div>
@@ -75,7 +75,7 @@ const MyVillage = () => {
       <div className="flex justify-center mt-8">
         <Link 
           to={`/village/${village.id}`}
-          className="village-button-primary flex items-center gap-2"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 gap-2"
         >
           View Village Details <ArrowRight size={16} />
         </Link>

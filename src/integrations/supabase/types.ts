@@ -9,7 +9,71 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      village_members: {
+        Row: {
+          id: string
+          joined_at: string | null
+          user_id: string
+          village_id: string
+        }
+        Insert: {
+          id?: string
+          joined_at?: string | null
+          user_id: string
+          village_id: string
+        }
+        Update: {
+          id?: string
+          joined_at?: string | null
+          user_id?: string
+          village_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "village_members_village_id_fkey"
+            columns: ["village_id"]
+            isOneToOne: false
+            referencedRelation: "villages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      villages: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          end_date: string
+          goal: string
+          id: string
+          name: string
+          stake_amount: number
+          start_date: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          end_date: string
+          goal: string
+          id?: string
+          name: string
+          stake_amount?: number
+          start_date: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          end_date?: string
+          goal?: string
+          id?: string
+          name?: string
+          stake_amount?: number
+          start_date?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
