@@ -284,7 +284,7 @@ const VillageDetail = () => {
       {/* Wallet Addresses Section - Fixed the nesting issue here */}
       <div className="bg-background py-8">
         <div className="village-container">
-          <h2 className="text-xl font-bold mb-6">Wallet Addresses</h2>
+          <h2 className="text-xl font-bold mb-6">Staked Members</h2>
           <div className="flex flex-col space-y-2">
             {members.map((member) => (
               <div key={member.id || member.user_id} className="p-3 bg-muted rounded-lg">
