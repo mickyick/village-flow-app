@@ -334,7 +334,7 @@ const VillageDetail = () => {
                 <div className="flex-1">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 mb-2">
                     <div>
-                      <span className="font-medium">{activity.user?.name}</span>
+                      <span className="font-medium">{activity.wallet_address}</span>
                       <span className="text-muted-foreground"> completed </span>
                       <span className="font-medium">{activity.title}</span>
                     </div>
