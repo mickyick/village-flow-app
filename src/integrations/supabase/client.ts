@@ -12,7 +12,7 @@ const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiO
 // Define database types manually since we're getting type errors
 // This is a temporary solution until proper types are generated
 type Tables = {
-  villages: {
+  village: {
     Row: {
       id: string;
       name: string;

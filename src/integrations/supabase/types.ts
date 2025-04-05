@@ -42,7 +42,7 @@ export type Database = {
             foreignKeyName: "activities_village_id_fkey"
             columns: ["village_id"]
             isOneToOne: false
-            referencedRelation: "villages"
+            referencedRelation: "village"
             referencedColumns: ["id"]
           },
         ]
@@ -87,7 +87,7 @@ export type Database = {
             foreignKeyName: "user_goals_village_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "villages"
+            referencedRelation: "village"
             referencedColumns: ["id"]
           },
         ]
@@ -149,7 +149,7 @@ export type Database = {
             foreignKeyName: "fk_village_id"
             columns: ["village_id"]
             isOneToOne: false
-            referencedRelation: "villages"
+            referencedRelation: "village"
             referencedColumns: ["id"]
           },
         ]
@@ -184,19 +184,19 @@ export type Database = {
             foreignKeyName: "fk_village_id"
             columns: ["village_id"]
             isOneToOne: false
-            referencedRelation: "villages"
+            referencedRelation: "village"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "village_members_village_id_fkey"
             columns: ["village_id"]
             isOneToOne: false
-            referencedRelation: "villages"
+            referencedRelation: "village"
             referencedColumns: ["id"]
           },
         ]
       }
-      villages: {
+      village: {
         Row: {
           created_at: string | null
           created_by: string | null
