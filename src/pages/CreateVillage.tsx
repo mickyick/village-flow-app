@@ -79,10 +79,6 @@ const CreateVillage = () => {
     // Generate unique slug or invite ID
     const inviteSlug = Math.random().toString(36).substring(2, 8);
   
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
     const { data, error } = await supabase.from('villages').insert([
       {
         name,
@@ -93,7 +89,6 @@ const CreateVillage = () => {
         stake: parseFloat(stake),
         invite_link: inviteSlug, // or the full invite URL
         reward_type: 'winner_takes_all' // Or handle this based on selection
-        created_by: user.id
       }
     ]);
   
