@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -36,6 +37,7 @@ interface Member {
   user_id: string;
   role: string;
   stake_amount: number | null;
+  wallet_address?: string;
   avatar?: string;
   name?: string;
 }
@@ -276,15 +278,17 @@ const VillageDetail = () => {
               </div>
             </div>
           </div>
-          
-          <div className="village-container py-8">
-            <h2 className="text-xl font-bold mb-6">Wallet Addresses</h2>
-
-          {/* Display wallet addresses in a flex column layout */}
+        </div>
+      </div>
+      
+      {/* Wallet Addresses Section - Fixed the nesting issue here */}
+      <div className="bg-background py-8">
+        <div className="village-container">
+          <h2 className="text-xl font-bold mb-6">Wallet Addresses</h2>
           <div className="flex flex-col space-y-2">
             {members.map((member) => (
-              <div key={member.wallet_address} className="p-3 bg-muted rounded-lg">
-                <div className="text-xs text-muted-foreground">{member.wallet_address}</div>
+              <div key={member.id || member.user_id} className="p-3 bg-muted rounded-lg">
+                <div className="text-xs text-muted-foreground">{member.wallet_address || 'No wallet address'}</div>
               </div>
             ))}
           </div>
