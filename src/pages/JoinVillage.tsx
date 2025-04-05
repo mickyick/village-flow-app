@@ -164,7 +164,9 @@ const JoinVillage = () => {
                 </div>
                 <div>
                   <div className="text-sm font-medium">Duration</div>
-                  <div className="text-sm">30 days</div>
+                  <div className="text-sm">
+                   {new Date(village.start_date).toLocaleDateString()} - {new Date(village.end_date).toLocaleDateString()}
+                  </div>
                 </div>
               </div>
             </div>
