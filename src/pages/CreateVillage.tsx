@@ -1,4 +1,4 @@
-
+import { supabase } from '@/integrations/supabase/client'; // adjust the path as needed
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -75,11 +75,32 @@ const CreateVillage = () => {
     toast.success('Invite link copied to clipboard!');
   };
   
-  const handleFinish = () => {
+  const handleFinish = async () => {
+    // Generate unique slug or invite ID
+    const inviteSlug = Math.random().toString(36).substring(2, 8);
+  
+    const { data, error } = await supabase.from('villages').insert([
+      {
+        name,
+        description,
+        goal,
+        start_date: startDate?.toISOString(),
+        end_date: endDate?.toISOString(),
+        stake: parseFloat(stake),
+        invite_link: inviteSlug, // or the full invite URL
+        reward_type: 'winner_takes_all' // Or handle this based on selection
+      }
+    ]);
+  
+    if (error) {
+      toast.error(`Failed to create village: ${error.message}`);
+      return;
+    }
+  
     toast.success('Village created successfully!');
-    // In a real app, we would save the village to the database here
-    navigate('/village/demo');
+    navigate(`/village/${inviteSlug}`);
   };
+  
   
   const renderStepContent = () => {
     switch (step) {
