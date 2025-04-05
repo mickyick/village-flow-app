@@ -90,7 +90,7 @@ const VillageDetail = () => {
       try {
         // Fetch village details
         const { data: villageData, error: villageError } = await supabase
-          .from('villages')
+          .from('village')
           .select('*')
           .eq('id', id)
           .single();
