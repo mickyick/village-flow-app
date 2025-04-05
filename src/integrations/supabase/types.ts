@@ -204,14 +204,16 @@ export type Database = {
           stake_amount: number | null
           user_id: string
           village_id: string
+          wallet_address: string | null
         }
         Insert: {
           id?: string
           joined_at?: string | null
           role?: string
           stake_amount?: number | null
-          user_id?: string
+          user_id: string
           village_id: string
+          wallet_address?: string | null
         }
         Update: {
           id?: string
@@ -220,6 +222,7 @@ export type Database = {
           stake_amount?: number | null
           user_id?: string
           village_id?: string
+          wallet_address?: string | null
         }
         Relationships: [
           {
@@ -242,6 +245,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "village"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "village_members_wallet_address_fkey"
+            columns: ["wallet_address"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["wallet_address"]
           },
         ]
       }

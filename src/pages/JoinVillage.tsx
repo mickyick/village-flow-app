@@ -182,8 +182,8 @@ const JoinVillage = () => {
               </div>
               
               <div className="flex -space-x-2">
-                {village_members && village_members.map((member: any) => (
-                  <div key={village_member.id} className="flex justify-between items-center p-3 bg-muted rounded-lg">
+                {village.members && village.members.map((member: any) => (
+                  <div key={member.id} className="flex justify-between items-center p-3 bg-muted rounded-lg">
                     <div className="text-xs text-muted-foreground">{member.wallet_address}</div>
                   </div>
                 ))}
