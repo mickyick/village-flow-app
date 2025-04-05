@@ -11,6 +11,12 @@ Village is a Web3 accountability platform that empowers users to reach their goa
 
 “It takes a village.” We turn that into action.
 
+<h2>💡 Why This Has "Killer App" Potential</h2>
+
+1️⃣ Solves a Real Pain Point – Many people struggle to stay consistent with habits. Social accountability + skin in the game + rewards makes goals easier and more fun to achieve.
+2️⃣ Unique in Web3 – Most web3 consumer apps focus on DeFi, NFTs, or gaming. Few focus on behavioral incentives for personal growth.
+3️⃣ Naturally uses Flow’s strengths – Flow is great for consumer-friendly dApps, walletless onboarding, scalability, programmable rewards, and NFTs.
+
 <h2>✅ MVP Features</h2>
 
 Create a Village & Invite Friends: Users create accountability groups and invite friends.
@@ -46,13 +52,14 @@ Payout:
 
 <h2>🌟 Product Roadmap (Post-MVP) </h2>
 
-- Award users with NFTs as trophies / badges for completing goals
-- Integrate with Flow Walletless Onboarding to attract web2 users
-- Store member activity on chain for immutability and transparency
-- Integrate with Apple Health, Strava, and other trackers for activity tracking
-- Deploy AI agents to assist members with reaching their goals through motivational messages, suggested lifestyle changes, etc. 
-- Support advanced reward distribution logic
-- Build group chat / DM features
+- AI-Generated NFT Badges: Users earn Flow-powered NFTs as trophies for their progress
+- Flow Walletless Onboarding: Create wallets for non-web3 users behind-the-scenes for a seamless signup
+- On-chain proof of activity: Store member activities on the Flow blockchain for immutability and transparency
+- Strava, Apple Health, MyFitnessPal integrations for activity tracking
+- AI Coach: Integrate with AI agents to help members reaching their goals with motivational messages, tips, reminders, etc. 
+- Advanced reward distribution: Allow groups to donate their rewards or customize prize distribution logic
+- Comments and reactions on activity posts
+- Group chat / DM in-app / integration with Discord
 
 <h2>🎨 Creative Direction</h2>
 
