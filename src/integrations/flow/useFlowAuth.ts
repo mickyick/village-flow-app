@@ -57,9 +57,9 @@ export const useFlowAuth = () => {
       
       // Check for village membership
       const { data: membership, error: membershipError } = await supabase
-        .from('memberships')
+        .from('village_members')
         .select('*')
-        .eq('user_wallet', flowUser.addr);
+        .eq('user_id', flowUser.addr);
         
       if (membershipError) {
         console.error("Error checking village membership:", membershipError);
