@@ -95,7 +95,10 @@ const VillageDetail = () => {
           .eq('id', id)
           .single();
           
-        if (villageError) throw villageError;
+          if (villageError) {
+            console.error('Error fetching village data:', villageError);
+            throw villageError;
+          }
         
         // Fetch village members
         const { data: membersData, error: membersError } = await supabase
