@@ -48,14 +48,18 @@ const JoinVillage = () => {
     }
 
     if (villageData) {
-      // Set the real village data into the state
-      setVillage(villageData);
+      // Set the village data into the state
+      // Initialize members as an empty array if not present
+      setVillage({
+        ...villageData,
+        members: [] // Initialize with empty array
+      });
     } else {
       toast.error('Village not found');
     }
 
     } catch (error) {
-     toast.error('An error occurred while fetching village data');
+      toast.error('An error occurred while fetching village data');
     } finally {
       setIsLoading(false);
     }
@@ -168,14 +172,14 @@ const JoinVillage = () => {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
-                <span className="text-sm font-medium">Members ({village.members.length})</span>
+                <span className="text-sm font-medium">Members ({village.members && village.members.length || 0})</span>
               </div>
               
               <div className="flex -space-x-2">
-                {village.members.map((member: any) => (
+                {village.members && village.members.map((member: any) => (
                   <Avatar key={member.id} className="border-2 border-background">
                     <AvatarImage src={member.avatar} alt={member.name} />
-                    <AvatarFallback>{member.name[0]}</AvatarFallback>
+                    <AvatarFallback>{member.name ? member.name[0] : '?'}</AvatarFallback>
                   </Avatar>
                 ))}
               </div>

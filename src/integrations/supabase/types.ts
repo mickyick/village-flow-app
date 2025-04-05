@@ -113,6 +113,48 @@ export type Database = {
         }
         Relationships: []
       }
+      village: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          end_date: string
+          goal: string
+          id: string
+          invite_code: string | null
+          name: string
+          reward_type: string | null
+          stake: number
+          start_date: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          end_date: string
+          goal: string
+          id?: string
+          invite_code?: string | null
+          name: string
+          reward_type?: string | null
+          stake?: number
+          start_date: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          end_date?: string
+          goal?: string
+          id?: string
+          invite_code?: string | null
+          name?: string
+          reward_type?: string | null
+          stake?: number
+          start_date?: string
+        }
+        Relationships: []
+      }
       village_goals: {
         Row: {
           created_at: string
@@ -188,6 +230,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "village_members_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "village_members_village_id_fkey"
             columns: ["village_id"]
             isOneToOne: false
@@ -195,48 +244,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
-      }
-      village: {
-        Row: {
-          created_at: string | null
-          created_by: string | null
-          description: string | null
-          end_date: string
-          goal: string
-          id: string
-          invite_link: string | null
-          name: string
-          reward_type: string | null
-          stake: number
-          start_date: string
-        }
-        Insert: {
-          created_at?: string | null
-          created_by?: string | null
-          description?: string | null
-          end_date: string
-          goal: string
-          id?: string
-          invite_link?: string | null
-          name: string
-          reward_type?: string | null
-          stake?: number
-          start_date: string
-        }
-        Update: {
-          created_at?: string | null
-          created_by?: string | null
-          description?: string | null
-          end_date?: string
-          goal?: string
-          id?: string
-          invite_link?: string | null
-          name?: string
-          reward_type?: string | null
-          stake?: number
-          start_date?: string
-        }
-        Relationships: []
       }
     }
     Views: {
