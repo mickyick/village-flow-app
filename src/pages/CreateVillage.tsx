@@ -81,7 +81,7 @@ const CreateVillage = () => {
   
     try {
       const { data, error } = await supabase
-        .from('villages')
+        .from('village')
         .insert([
           {
             name,
